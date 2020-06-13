@@ -1,27 +1,35 @@
 package com.ratenok.accounting.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ratenok.accounting.exception.ValidationException;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.List;
 
-@RequiredArgsConstructor
-@NoArgsConstructor(force = true)
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Data
 public class Account {
     @Id
     private Long id;
 
-    private final BigDecimal balance;
+    private BigDecimal balance;
 
-    @OneToMany(mappedBy = "account", orphanRemoval = true, cascade = CascadeType.REMOVE)
-    private final List<AccountTransaction> transactions;
+    public void setBalance(BigDecimal balance) {
+        if (balance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new ValidationException("Balance cannot be negative");
+        }
+        this.balance = balance;
+    }
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "account", orphanRemoval = true)
+    private List<AccountTransaction> transactions;
 }

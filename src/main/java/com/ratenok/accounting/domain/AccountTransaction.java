@@ -1,5 +1,6 @@
 package com.ratenok.accounting.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ratenok.accounting.dto.TransactionDto;
 import com.ratenok.accounting.enumeration.TransactionType;
 import com.sun.istack.NotNull;
@@ -43,13 +44,12 @@ public class AccountTransaction {
         Account acc = new Account();
         acc.setId(1L);
 
-        AccountTransaction t = new AccountTransaction(
+        return new AccountTransaction(
             dto.getId(),
             dto.getType(),
             dto.getAmount(),
             dto.getCreatedDate(),
             acc
         );
-        return t;
     }
 }

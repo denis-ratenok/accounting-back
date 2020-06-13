@@ -16,7 +16,6 @@ public class TransactionDto {
     private UUID id;
     @NonNull
     private final TransactionType type;
-    @NonNull
     private final BigDecimal amount;
     private Instant createdDate = Instant.now();
 

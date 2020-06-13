@@ -22,7 +22,7 @@ public class AccountService {
     }
 
     public void updateBalance(BigDecimal delta) {
-        Account account = accountRepository.getOne(ACCOUNT_ID);
+        Account account = accountRepository.findById(ACCOUNT_ID).get();
         account.setBalance(account.getBalance().add(delta));
 
         accountRepository.save(account);

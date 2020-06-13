@@ -1,7 +1,9 @@
 package com.ratenok.accounting.domain;
 
+import com.ratenok.accounting.dto.TransactionDto;
 import com.ratenok.accounting.enumeration.TransactionType;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
+@AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor(force = true)
 @Data
@@ -34,4 +37,19 @@ public class AccountTransaction {
     @JoinColumn(name = "account", nullable = false)
     @NotNull
     private Account account;
+
+    public static AccountTransaction from(TransactionDto dto) {
+        // todo: rework to support multiple accounts
+        Account acc = new Account();
+        acc.setId(1L);
+
+        AccountTransaction t = new AccountTransaction(
+            dto.getId(),
+            dto.getType(),
+            dto.getAmount(),
+            dto.getCreatedDate(),
+            acc
+        );
+        return t;
+    }
 }
